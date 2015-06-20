@@ -63,15 +63,7 @@ describe('A XOR Neural Network', function () {
 
         for (var i = 1; i <= 10000; ++i) {
 
-            var error = 0;
-
-            _.each(dataSet, function (sample) {
-                var input   = sample[0];
-                var output  = sample[1];
-                error += network.train(input, output, learningRate, momentum);
-            });
-
-            error = Math.sqrt(error) / dataSet.length;
+            var error = network.batchTrain(dataSet, learningRate, momentum);
 
             if (error < 0.04) {
                 break;
