@@ -1,0 +1,16 @@
+{
+  "name": "neural-nets",
+  "version": "1.0.0",
+  "description": "Playing around with neural networks.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "François-Marie de Jouvencel <fm.de.jouvencel@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^3.0.0",
+    "mocha": "^2.2.5",
+    "underscore": "^1.8.3"
+  }
+}
