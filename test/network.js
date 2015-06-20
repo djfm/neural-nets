@@ -1,4 +1,5 @@
 var chai = require('chai');
+var _    = require('underscore');
 chai.should();
 
 /* global describe, it */
@@ -90,5 +91,32 @@ describe('A Neural Network', function () {
         chai.expect(function () {
             network.backPropagate([0], 0.01);
         }).to.throw();
+    });
+
+    it('should not compute a neuron\'s output more times than necessary', function () {
+        var network = new Network(2, 2, 2, 1);
+
+        var callsTo_compute_noCache = 0;
+
+        _.each(network.layers, function (layer) {
+            _.each(layer, function (neuron) {
+                var _compute_noCache = neuron._compute_noCache.bind(neuron);
+                neuron._compute_noCache = function (pass) {
+
+                    ++callsTo_compute_noCache;
+
+                    var result = _compute_noCache(pass);
+
+                    this._compute_noCache = function shouldNotBeCalledAgain () {
+                        throw new Error('_compute_noCache should not have been called twice in the same pass for any neuron');
+                    };
+
+                    return result;
+                };
+            });
+        });
+
+        network.compute([1,1]);
+        callsTo_compute_noCache.should.equal(2+2+2+1);
     });
 });
